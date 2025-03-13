@@ -94,6 +94,7 @@ public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
 
     return scheduler;
 }
+```
 
 This configuration ensures that your **ThreadPoolTaskScheduler** is set up with the appropriate properties to manage scheduled tasks effectively, providing control over thread management, task execution, and shutdown behavior. To ensure flexibility and maintainability, all ThreadPoolTaskScheduler configurations should be stored in application.properties. This approach allows easy modifications without requiring code changes or redeployment.
 
