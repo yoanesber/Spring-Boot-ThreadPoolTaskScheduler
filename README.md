@@ -1,7 +1,7 @@
 # Spring Boot Scheduled Tasks with ThreadPoolTaskScheduler
 
 ## 🚀 Overview
-This project demonstrates the implementation of scheduled tasks using `ThreadPoolTaskScheduler` in a `Spring Boot 3.4.2` application. The system efficiently manages scheduled jobs using a configurable thread pool, ensuring optimal task execution without blocking the main application thread.
+This project demonstrates the implementation of scheduled tasks using `ThreadPoolTaskScheduler` in a `Spring Boot 3.4.2` application. The system efficiently manages scheduled jobs using a configurable thread pool, ensuring optimal task execution without blocking the main application thread. It provides advanced scheduling capabilities, such as executing tasks at fixed intervals, delays, or cron expressions while efficiently managing concurrency. This makes it ideal for handling background jobs, database cleanup, data synchronization, and other scheduled operations in Spring Boot applications.
 
 ---
 
@@ -31,6 +31,72 @@ The project is organized into the following package structure:
 - **scheduler**: Defines scheduled tasks executed by ThreadPoolTaskScheduler.
 - **service**: Defines business logic and application functionality.
     - **impl**: Implements the service interfaces.
+---
+
+## ThreadPoolTaskScheduler Configuration
+
+The `SchedulerConfig` class in this project configures a `ThreadPoolTaskScheduler` to manage scheduled tasks asynchronously. Below are the configuration properties and their purposes:
+
+1. **poolSize**
+   - **Description**: Specifies the maximum number of threads in the thread pool used by the scheduler.
+   - **Purpose**: Determines how many tasks can be executed concurrently. If the number of tasks exceeds the pool size, new tasks will wait until a thread becomes available. The default value is 1.
+
+2. **threadNamePrefix**
+   - **Description**: Sets the prefix for the names of threads created by the scheduler.
+   - **Purpose**: Helps in identifying and differentiating the scheduler's threads from other threads in the application. The default value is "task-".
+
+3. **removeOnCancelPolicy**
+   - **Description**: Indicates whether the scheduler should remove canceled tasks from the queue.
+   - **Purpose**: Ensures that canceled tasks do not occupy space in the queue, which can be useful for managing resources efficiently. The default value is false.
+
+4. **waitForTasksToCompleteOnShutdown**
+   - **Description**: Ensures that all tasks in the queue or currently running are completed before the scheduler shuts down.
+   - **Purpose**: Provides a graceful shutdown by allowing tasks to finish execution, which is important for tasks that must complete before the application stops. The default value is false.
+
+5. **awaitTerminationSeconds**
+   - **Description**: Specifies the maximum time the scheduler will wait for tasks to complete after a shutdown request.
+   - **Purpose**: Prevents indefinite waiting by setting a timeout for task completion during shutdown. If set to 0, the scheduler will not wait and will terminate tasks immediately. The default value is 0.
+
+6. **threadPriority**
+   - **Description**: Sets the priority of the threads in the `ThreadPoolTaskScheduler`.
+   - **Purpose**: Allows prioritization of tasks, where higher priority threads are executed faster by the system. This is useful for tasks with different levels of urgency. The default value is 5.
+
+7. **continueExistingPeriodicTasksAfterShutdownPolicy**
+   - **Description**: Determines whether periodic tasks should continue running after the scheduler is shut down.
+   - **Purpose**: Ensures that periodic tasks are not interrupted by a shutdown, which can be important for maintaining periodic operations. The default value is false.
+
+8. **executeExistingDelayedTasksAfterShutdownPolicy**
+   - **Description**: Specifies whether delayed tasks should be executed after the scheduler is shut down.
+   - **Purpose**: Ensures that tasks scheduled to run after a delay are not canceled by a shutdown, which can be important for tasks that must be executed. The default value is true.
+
+9. **daemon**
+   - **Description**: Indicates whether the scheduler's threads are daemon threads.
+   - **Purpose**: Daemon threads run in the background and do not prevent the JVM from shutting down. This is useful for background tasks that do not need to keep the application running. The default value is false.
+
+### Example Configuration in `SchedulerConfig.java`
+
+```java
+@Bean(name = "threadPoolTaskScheduler")
+public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+    ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+
+    // Configure scheduler
+    scheduler.setPoolSize(poolSize);
+    scheduler.setThreadNamePrefix(threadNamePrefix);
+    scheduler.setRemoveOnCancelPolicy(removeOnCancelPolicy);
+    scheduler.setWaitForTasksToCompleteOnShutdown(waitForTasksToCompleteOnShutdown);
+    scheduler.setAwaitTerminationSeconds(awaitTerminationSeconds);
+    scheduler.setThreadPriority(threadPriority);
+    scheduler.setContinueExistingPeriodicTasksAfterShutdownPolicy(continueExistingPeriodicTasksAfterShutdownPolicy);
+    scheduler.setExecuteExistingDelayedTasksAfterShutdownPolicy(executeExistingDelayedTasksAfterShutdownPolicy);
+    scheduler.setDaemon(daemon);
+    scheduler.initialize();
+
+    return scheduler;
+}
+
+This configuration ensures that your **ThreadPoolTaskScheduler** is set up with the appropriate properties to manage scheduled tasks effectively, providing control over thread management, task execution, and shutdown behavior. To ensure flexibility and maintainability, all ThreadPoolTaskScheduler configurations should be stored in application.properties. This approach allows easy modifications without requiring code changes or redeployment.
+
 ---
 
 ## 📂 Environment Configuration
@@ -67,17 +133,17 @@ TASK_SCHEDULER_DAEMON=false
 
 # cron configuration
 ## daily
-SCHEDULER_DAILY_TASK_SET_ACCOUNT_EXPIRATION_DATE=0 5 0 * * ?
-SCHEDULER_DAILY_TASK_SET_ACCOUNTS_TO_EXPIRED=0 10 0 * * ?
-SCHEDULER_DAILY_TASK_SET_CREDENTIALS_TO_EXPIRED=0 15 0 * * ?
+SCHEDULER_DAILY_TASK_SET_ACCOUNT_EXPIRATION_DATE=0 5 0 * * ? #This cron expression will trigger the task every day at 12:05 AM (5 minutes past midnight).
+SCHEDULER_DAILY_TASK_SET_ACCOUNTS_TO_EXPIRED=0 10 0 * * ? #This cron expression will trigger the task every day at 12:10 AM (10 minutes past midnight).
+SCHEDULER_DAILY_TASK_SET_CREDENTIALS_TO_EXPIRED=0 15 0 * * ? #This cron expression will trigger the task every day at 12:15 AM (15 minutes past midnight).
 
 ## weekly
-SCHEDULER_WEEKLY_TASK_SEND_EMAIL_TO_USERS_WITH_EXPIRED_ACCOUNTS=0 5 9 * * MON
-SCHEDULER_WEEKLY_TASK_SEND_EMAIL_TO_USERS_WITH_EXPIRED_CREDENTIALS=0 10 9 * * MON
+SCHEDULER_WEEKLY_TASK_SEND_EMAIL_TO_USERS_WITH_EXPIRED_ACCOUNTS=0 5 9 * * MON #This cron expression will trigger the task every Monday at 9:05 AM
+SCHEDULER_WEEKLY_TASK_SEND_EMAIL_TO_USERS_WITH_EXPIRED_CREDENTIALS=0 10 9 * * MON #This cron expression will trigger the task every Monday at 9:10 AM
 
 ## monthly
-SCHEDULER_MONTHLY_TASK_CLEANUP_EXPIRED_ACCOUNTS=0 5 1 28 * ?
-SCHEDULER_MONTHLY_TASK_CLEANUP_EXPIRED_CREDENTIALS=0 20 1 28 * ?
+SCHEDULER_MONTHLY_TASK_CLEANUP_EXPIRED_ACCOUNTS=0 5 1 28 * ? #This cron expression will trigger the task at 1:05 AM on the 28th day of every month.
+SCHEDULER_MONTHLY_TASK_CLEANUP_EXPIRED_CREDENTIALS=0 20 1 28 * ? #This cron expression will trigger the task at 1:20 AM on the 28th day of every month.
 ```
 
 Example `application.properties` file content:
