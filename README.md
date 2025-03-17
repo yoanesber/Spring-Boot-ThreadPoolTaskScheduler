@@ -5,34 +5,6 @@ This project demonstrates the implementation of scheduled tasks using `ThreadPoo
 
 ---
 
-## ✨Tech Stack
-The technology used in this project are:
-- `Spring Data JPA with Hibernate` – Simplifies database interactions
-- `PostgreSQL` – Used for persisting user and application data
-- `Lombok` – Reduces boilerplate code
-- `ThreadPoolTaskScheduler` – Manages scheduled tasks with multi-threading support
----
-
-## 📋 Project Structure
-The project is organized into the following package structure:
-```bash
-- `config`
-- `entity`
-- `repository`
-- `scheduler`
-- `service`
-  \---impl
-```
-
-### Explanation of Each Package
-- **config**: Configures ThreadPoolTaskScheduler (pool size, thread name prefix, etc.).
-- **entity**: Contains JPA entity classes representing database tables.
-- **repository**: Provides database access functionality using Spring Data JPA.
-- **scheduler**: Defines scheduled tasks executed by ThreadPoolTaskScheduler.
-- **service**: Defines business logic and application functionality.
-    - **impl**: Implements the service interfaces.
----
-
 ## ThreadPoolTaskScheduler Configuration
 
 The `SchedulerConfig` class in this project configures a `ThreadPoolTaskScheduler` to manage scheduled tasks asynchronously. Below are the configuration properties and their purposes:
@@ -98,6 +70,28 @@ public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
 
 This configuration ensures that your **ThreadPoolTaskScheduler** is set up with the appropriate properties to manage scheduled tasks effectively, providing control over thread management, task execution, and shutdown behavior. To ensure flexibility and maintainability, all ThreadPoolTaskScheduler configurations should be stored in application.properties. This approach allows easy modifications without requiring code changes or redeployment.
 
+---
+
+## ✨Tech Stack
+The technology used in this project are:
+- `Spring Data JPA with Hibernate` – Simplifies database interactions
+- `PostgreSQL` – Used for persisting user and application data
+- `Lombok` – Reduces boilerplate code
+- `ThreadPoolTaskScheduler` – Manages scheduled tasks with multi-threading support
+---
+
+## 📋 Project Structure
+The project is organized into the following package structure:
+```bash
+task-scheduler/
+│── src/main/java/com/yoanesber/spring/task_scheduler/
+│   ├── config/                # Configures ThreadPoolTaskScheduler (pool size, thread name prefix, etc.).
+│   ├── entity/                # Contains JPA entity classes representing database tables.
+│   ├── repository/            # Provides database access functionality using Spring Data JPA.
+│   ├── scheduler/             # Defines scheduled tasks executed by ThreadPoolTaskScheduler.
+│   ├── service/               # Business logic layer
+│   │   ├── impl/              # Implementation of services
+```
 ---
 
 ## 📂 Environment Configuration
