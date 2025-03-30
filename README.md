@@ -1,12 +1,9 @@
 # Spring Boot Scheduled Tasks with ThreadPoolTaskScheduler
 
-## 🚀 Overview
-This project demonstrates the implementation of scheduled tasks using `ThreadPoolTaskScheduler` in a `Spring Boot 3.4.2` application. The system efficiently manages scheduled jobs using a configurable thread pool, ensuring optimal task execution without blocking the main application thread. It provides advanced scheduling capabilities, such as executing tasks at fixed intervals, delays, or cron expressions while efficiently managing concurrency. This makes it ideal for handling background jobs, database cleanup, data synchronization, and other scheduled operations in Spring Boot applications.
+## 📖 Overview
+This project demonstrates the implementation of scheduled tasks using **ThreadPoolTaskScheduler** in a **Spring Boot** application. The system efficiently manages scheduled jobs using a configurable thread pool, ensuring optimal task execution **without blocking the main application thread**. It provides advanced scheduling capabilities, such as executing tasks at **fixed intervals, delays, or cron expressions** while efficiently managing concurrency. This makes it ideal for handling **background jobs, database cleanup, data synchronization, and other scheduled operations** in Spring Boot applications.  
 
----
-
-## ThreadPoolTaskScheduler Configuration
-
+### 🕒 ThreadPoolTaskScheduler Configuration
 The `SchedulerConfig` class in this project configures a `ThreadPoolTaskScheduler` to manage scheduled tasks asynchronously. Below are the configuration properties and their purposes:
 
 1. **poolSize**
@@ -45,8 +42,7 @@ The `SchedulerConfig` class in this project configures a `ThreadPoolTaskSchedule
    - **Description**: Indicates whether the scheduler's threads are daemon threads.
    - **Purpose**: Daemon threads run in the background and do not prevent the JVM from shutting down. This is useful for background tasks that do not need to keep the application running. The default value is false.
 
-### Example Configuration in `SchedulerConfig.java`
-
+#### Example Configuration in `SchedulerConfig.java`
 ```java
 @Bean(name = "threadPoolTaskScheduler")
 public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
@@ -68,54 +64,53 @@ public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
 }
 ```
 
-This configuration ensures that your **ThreadPoolTaskScheduler** is set up with the appropriate properties to manage scheduled tasks effectively, providing control over thread management, task execution, and shutdown behavior. To ensure flexibility and maintainability, all ThreadPoolTaskScheduler configurations should be stored in application.properties. This approach allows easy modifications without requiring code changes or redeployment.
+This configuration ensures that your **ThreadPoolTaskScheduler** is set up with the appropriate properties to manage scheduled tasks effectively, providing control over thread management, task execution, and shutdown behavior. To ensure flexibility and maintainability, all ThreadPoolTaskScheduler configurations should be stored in application.properties. This approach allows easy modifications without requiring code changes or redeployment.  
 
 ---
 
-## ✨Tech Stack
-The technology used in this project are:
-- `Spring Data JPA with Hibernate` – Simplifies database interactions
-- `PostgreSQL` – Used for persisting user and application data
-- `Lombok` – Reduces boilerplate code
+## 🤖 Tech Stack
+The technology used in this project are:  
 - `ThreadPoolTaskScheduler` – Manages scheduled tasks with multi-threading support
+- `PostgreSQL` – Used for persisting user and application data
+- `Hibernate` – Simplifies database interactions
+- `Lombok` – Reduces boilerplate code
 ---
 
-## 📋 Project Structure
-The project is organized into the following package structure:
+## 🏗️ Project Structure
+The project is organized into the following package structure:  
 ```bash
 task-scheduler/
 │── src/main/java/com/yoanesber/spring/task_scheduler/
-│   ├── config/                # Configures ThreadPoolTaskScheduler (pool size, thread name prefix, etc.).
-│   ├── entity/                # Contains JPA entity classes representing database tables.
-│   ├── repository/            # Provides database access functionality using Spring Data JPA.
-│   ├── scheduler/             # Defines scheduled tasks executed by ThreadPoolTaskScheduler.
-│   ├── service/               # Business logic layer
-│   │   ├── impl/              # Implementation of services
+│   ├── 📂config/                # Configures ThreadPoolTaskScheduler (pool size, thread name prefix, etc.).
+│   ├── 📂entity/                # Contains JPA entity classes representing database tables.
+│   ├── 📂repository/            # Provides database access functionality using Spring Data JPA.
+│   ├── 📂scheduler/             # Defines scheduled tasks executed by ThreadPoolTaskScheduler.
+│   ├── 📂service/               # Business logic layer
+│   │   ├── 📂impl/              # Implementation of services
 ```
 ---
 
-## 📂 Environment Configuration
-Configuration values are stored in `.env.development` and referenced in `application.properties`.
-
-Example `.env.development` file content:
+## ⚙ Environment Configuration
+Configuration values are stored in `.env.development` and referenced in `application.properties`.  
+Example `.env.development` file content:  
 ```properties
-# application
+# Application properties
 APP_PORT=8081
 SPRING_PROFILES_ACTIVE=development
 
-# postgres
+# Database properties
 SPRING_DATASOURCE_PORT=5432
-SPRING_DATASOURCE_USERNAME=myusername
-SPRING_DATASOURCE_PASSWORD=mypassword
-SPRING_DATASOURCE_DB=mydb
-SPRING_DATASOURCE_SCHEMA=myschema
+SPRING_DATASOURCE_USERNAME=your_username
+SPRING_DATASOURCE_PASSWORD=your_password
+SPRING_DATASOURCE_DB=your_db
+SPRING_DATASOURCE_SCHEMA=your_schema
 
-# business policy
+# Business policy properties
 BUSINESS_POLICY_ALLOWED_INACTIVE_DAYS=3
 BUSINESS_POLICY_EXPIRED_ACCOUNT_RETENTION_DAYS=30
 BUSINESS_POLICY_EXPIRED_CREDENTIALS_RETENTION_DAYS=30
 
-# taskScheduler
+# TaskScheduler properties
 TASK_SCHEDULER_POOL_SIZE=5
 TASK_SCHEDULER_THREAD_NAME_PREFIX=thread-
 TASK_SCHEDULER_REMOVE_ON_CANCEL_POLICY=false
@@ -126,7 +121,7 @@ TASK_SCHEDULER_CONTINUE_EXISTING_PERIODIC_TASKS_AFTER_SHUTDOWN_POLICY=false
 TASK_SCHED_SCHEDULER_EXECUTE_EXISTING_DELAYED_TASKS_AFTER_SHUTDOWN_POLICY=true
 TASK_SCHEDULER_DAEMON=false
 
-# cron configuration
+# Cron configuration properties
 ## daily
 SCHEDULER_DAILY_TASK_SET_ACCOUNT_EXPIRATION_DATE=0 5 0 * * ? #This cron expression will trigger the task every day at 12:05 AM (5 minutes past midnight).
 SCHEDULER_DAILY_TASK_SET_ACCOUNTS_TO_EXPIRED=0 10 0 * * ? #This cron expression will trigger the task every day at 12:10 AM (10 minutes past midnight).
@@ -143,28 +138,22 @@ SCHEDULER_MONTHLY_TASK_CLEANUP_EXPIRED_CREDENTIALS=0 20 1 28 * ? #This cron expr
 
 Example `application.properties` file content:
 ```properties
+# Application properties
 spring.application.name=task-scheduler
 server.port=${APP_PORT}
 spring.profiles.active=${SPRING_PROFILES_ACTIVE}
 
-## datasource 
+# Database properties
 spring.datasource.url=jdbc:postgresql://localhost:${SPRING_DATASOURCE_PORT}/${SPRING_DATASOURCE_DB}?currentSchema=${SPRING_DATASOURCE_SCHEMA}
 spring.datasource.username=${SPRING_DATASOURCE_USERNAME}
 spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
 
-## hibernate 
-spring.jpa.show-sql=true
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.hibernate.naming.implicit-strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
-spring.jpa.properties.hibernate.format_sql=true
-spring.jpa.open-in-view=true
-
-## business policy
+# Business policy properties
 business.policy.allowed-inactive-days=${BUSINESS_POLICY_ALLOWED_INACTIVE_DAYS}
 business.policy.expired-account-retention-days=${BUSINESS_POLICY_EXPIRED_ACCOUNT_RETENTION_DAYS}
 business.policy.expired-credentials-retention-days=${BUSINESS_POLICY_EXPIRED_CREDENTIALS_RETENTION_DAYS}
 
-## taskScheduler configuration
+# TaskScheduler properties
 spring.task.scheduling.pool.size=${TASK_SCHEDULER_POOL_SIZE}
 spring.task.scheduling.thread-name-prefix=${TASK_SCHEDULER_THREAD_NAME_PREFIX}
 spring.task.scheduling.remove-on-cancel-policy=${TASK_SCHEDULER_REMOVE_ON_CANCEL_POLICY}
@@ -175,8 +164,8 @@ spring.task.scheduling.continue-existing-periodic-tasks-after-shutdown-policy=${
 spring.task.scheduling.execute-existing-delayed-tasks-after-shutdown-policy=${TASK_SCHED_SCHEDULER_EXECUTE_EXISTING_DELAYED_TASKS_AFTER_SHUTDOWN_POLICY}
 spring.task.scheduling.daemon=${TASK_SCHEDULER_DAEMON}
 
-## cron configuration
-### daily task
+# Cron configuration properties
+## daily task
 scheduler.daily-task.set-account-expiration-date=${SCHEDULER_DAILY_TASK_SET_ACCOUNT_EXPIRATION_DATE}
 scheduler.daily-task.set-accounts-to-expired=${SCHEDULER_DAILY_TASK_SET_ACCOUNTS_TO_EXPIRED}
 scheduler.daily-task.set-credentials-to-expired=${SCHEDULER_DAILY_TASK_SET_CREDENTIALS_TO_EXPIRED}
@@ -192,15 +181,15 @@ scheduler.monthly-task.cleanup-expired-credentials=${SCHEDULER_MONTHLY_TASK_CLEA
 ---
 
 ## 💾 Database Schema (DDL – PostgreSQL)
-The project uses PostgreSQL as its database, with a structured schema to store the data efficiently. Below is the DDL (Data Definition Language) used to create the database schema.
+The project uses PostgreSQL as its database, with a structured schema to store the data efficiently. Below is the DDL (Data Definition Language) used to create the database schema.  
 
 ### Create Schema Employees
-Database schema.
+Database schema.  
 ```sql
-CREATE SCHEMA myschema;
+CREATE SCHEMA your_schema;
 
 -- create table users
-CREATE TABLE IF NOT EXISTS myschema.users
+CREATE TABLE IF NOT EXISTS your_schema.users
 (
 	id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
 	username character varying(20) COLLATE pg_catalog."default" NOT NULL,
@@ -227,7 +216,7 @@ CREATE TABLE IF NOT EXISTS myschema.users
 );
 
 -- feed data users
-INSERT INTO myschema.users (username, "password", email, firstname, lastname, is_enabled, is_account_non_expired, is_account_non_locked, is_credentials_non_expired, is_deleted, account_expiration_date, credentials_expiration_date, last_login, user_type, created_by, created_date, updated_by, updated_date) VALUES
+INSERT INTO your_schema.users (username, "password", email, firstname, lastname, is_enabled, is_account_non_expired, is_account_non_locked, is_credentials_non_expired, is_deleted, account_expiration_date, credentials_expiration_date, last_login, user_type, created_by, created_date, updated_by, updated_date) VALUES
 ('superadmin', '$2a$10$eP5Sddi7Q5Jv6seppeF93.XsWGY8r4PnsqprWGb5AxsZ9TpwULIGa', 'superadmin@youremail.com', 'Super', 'Admin', true, true, true, true, false, '2025-04-23 21:52:38.000', '2025-02-28 01:58:35.835', '2025-01-09 13:53:54.000', 'USER_ACCOUNT', 'system', '2024-09-04 03:42:58.847', 'system', '2024-11-28 01:58:35.835'),
 ('budigun', '$2a$10$eP5Sddi7Q5Jv6seppeF93.XsWGY8r4PnsqprWGb5AxsZ9TpwULIGa', 'budigun@youremail.com', 'Budi', 'Gunawan', true, true, true, true, false, '2025-04-23 21:52:38.000', '2025-02-28 01:58:35.835', '2025-01-09 13:53:54.000', 'USER_ACCOUNT', 'superadmin', '2024-09-04 03:42:58.847', 'superadmin', '2024-11-28 01:58:35.835'),
 ('johndoe', '$2a$10$eP5Sddi7Q5Jv6seppeF93.XsWGY8r4PnsqprWGb5AxsZ9TpwULIGa', 'johndoe@youremail.com', 'John', 'Doe', true, true, true, true, false, '2026-06-15 12:45:00.000', '2025-12-30 08:00:00.000', '2025-02-20 14:00:00.000', 'USER_ACCOUNT', 'superadmin', '2024-10-01 10:00:00.000', 'superadmin', '2024-12-15 09:00:00.000'),
@@ -242,30 +231,32 @@ INSERT INTO myschema.users (username, "password", email, firstname, lastname, is
 ```
 ---
 
-## 🛠 Installation & Setup
-A step by step series of examples that tell you how to get a development env running.
+## 🛠️ Installation & Setup
+A step by step series of examples that tell you how to get a development env running.  
 1. Clone the repository
 ```bash
 git clone https://github.com/yoanesber/Spring-Boot-ThreadPoolTaskScheduler.git
+cd Spring-Boot-ThreadPoolTaskScheduler
 ```
 
 2. Set up PostgreSQL
 - Run the provided DDL script to set up the database schema
 - Configure the connection in `.env.development` file:
 ```properties
-# postgres
+# Database properties
 SPRING_DATASOURCE_PORT=5432
-SPRING_DATASOURCE_USERNAME=myusername
-SPRING_DATASOURCE_PASSWORD=mypassword
-SPRING_DATASOURCE_DB=mydb
-SPRING_DATASOURCE_SCHEMA=myschema
+SPRING_DATASOURCE_USERNAME=your_username
+SPRING_DATASOURCE_PASSWORD=your_password
+SPRING_DATASOURCE_DB=your_db
+SPRING_DATASOURCE_SCHEMA=your_schema
 ```
 
 4. Run the application locally
-- Make sure PostgreSQL is running, then execute: 
+- Make sure PostgreSQL is running, then execute:  
 ```bash
 mvn spring-boot:run
 ```
 ---
 
-This project follows best practices in Spring Boot development, ensuring efficiency and maintainability.
+## 🔗 Related Repositories
+- Asynchronous Execution of Tasks GitHub Repository, check out [ThreadPoolTaskExecutor in Spring Boot](https://github.com/yoanesber/Spring-Boot-ThreadPoolTaskExecutor).
