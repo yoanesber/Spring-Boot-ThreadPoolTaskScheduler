@@ -4,7 +4,7 @@
 This project demonstrates the implementation of scheduled tasks using **ThreadPoolTaskScheduler** in a **Spring Boot** application. The system efficiently manages scheduled jobs using a configurable thread pool, ensuring optimal task execution **without blocking the main application thread**. It provides advanced scheduling capabilities, such as executing tasks at **fixed intervals, delays, or cron expressions** while efficiently managing concurrency. This makes it ideal for handling **background jobs, database cleanup, data synchronization, and other scheduled operations** in Spring Boot applications.  
 
 ### 🕒 ThreadPoolTaskScheduler Configuration
-The `SchedulerConfig` class in this project configures a `ThreadPoolTaskScheduler` to manage scheduled tasks asynchronously. Below are the configuration properties and their purposes:
+The `SchedulerConfig` class in this project configures a `ThreadPoolTaskScheduler` to manage scheduled tasks asynchronously. Below are the configuration properties and their purposes:  
 
 1. **poolSize**
    - **Description**: Specifies the maximum number of threads in the thread pool used by the scheduler.
@@ -233,7 +233,7 @@ INSERT INTO your_schema.users (username, "password", email, firstname, lastname,
 
 ## 🛠️ Installation & Setup
 A step by step series of examples that tell you how to get a development env running.  
-1. Clone the repository
+1. Ensure you have **Git installed on your Windows** machine, then clone the repository to your local environment:
 ```bash
 git clone https://github.com/yoanesber/Spring-Boot-ThreadPoolTaskScheduler.git
 cd Spring-Boot-ThreadPoolTaskScheduler
@@ -251,7 +251,7 @@ SPRING_DATASOURCE_DB=your_db
 SPRING_DATASOURCE_SCHEMA=your_schema
 ```
 
-4. Run the application locally
+3. Run the application locally
 - Make sure PostgreSQL is running, then execute:  
 ```bash
 mvn spring-boot:run
