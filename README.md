@@ -7,40 +7,40 @@ This project demonstrates the implementation of scheduled tasks using **ThreadPo
 The `SchedulerConfig` class in this project configures a `ThreadPoolTaskScheduler` to manage scheduled tasks asynchronously. Below are the configuration properties and their purposes:  
 
 1. **poolSize**
-   - **Description**: Specifies the maximum number of threads in the thread pool used by the scheduler.
-   - **Purpose**: Determines how many tasks can be executed concurrently. If the number of tasks exceeds the pool size, new tasks will wait until a thread becomes available. The default value is 1.
+   - Specifies the maximum number of threads in the thread pool used by the scheduler.
+   - Determines how many tasks can be executed concurrently. If the number of tasks exceeds the pool size, new tasks will wait until a thread becomes available. The default value is 1.
 
 2. **threadNamePrefix**
-   - **Description**: Sets the prefix for the names of threads created by the scheduler.
-   - **Purpose**: Helps in identifying and differentiating the scheduler's threads from other threads in the application. The default value is "task-".
+   - Sets the prefix for the names of threads created by the scheduler.
+   - Helps in identifying and differentiating the scheduler's threads from other threads in the application. The default value is "task-".
 
 3. **removeOnCancelPolicy**
-   - **Description**: Indicates whether the scheduler should remove canceled tasks from the queue.
-   - **Purpose**: Ensures that canceled tasks do not occupy space in the queue, which can be useful for managing resources efficiently. The default value is false.
+   - Indicates whether the scheduler should remove canceled tasks from the queue.
+   - Ensures that canceled tasks do not occupy space in the queue, which can be useful for managing resources efficiently. The default value is false.
 
 4. **waitForTasksToCompleteOnShutdown**
-   - **Description**: Ensures that all tasks in the queue or currently running are completed before the scheduler shuts down.
-   - **Purpose**: Provides a graceful shutdown by allowing tasks to finish execution, which is important for tasks that must complete before the application stops. The default value is false.
+   - Ensures that all tasks in the queue or currently running are completed before the scheduler shuts down.
+   - Provides a graceful shutdown by allowing tasks to finish execution, which is important for tasks that must complete before the application stops. The default value is false.
 
 5. **awaitTerminationSeconds**
-   - **Description**: Specifies the maximum time the scheduler will wait for tasks to complete after a shutdown request.
-   - **Purpose**: Prevents indefinite waiting by setting a timeout for task completion during shutdown. If set to 0, the scheduler will not wait and will terminate tasks immediately. The default value is 0.
+   - Specifies the maximum time the scheduler will wait for tasks to complete after a shutdown request.
+   - Prevents indefinite waiting by setting a timeout for task completion during shutdown. If set to 0, the scheduler will not wait and will terminate tasks immediately. The default value is 0.
 
 6. **threadPriority**
-   - **Description**: Sets the priority of the threads in the `ThreadPoolTaskScheduler`.
-   - **Purpose**: Allows prioritization of tasks, where higher priority threads are executed faster by the system. This is useful for tasks with different levels of urgency. The default value is 5.
+   - Sets the priority of the threads in the `ThreadPoolTaskScheduler`.
+   - Allows prioritization of tasks, where higher priority threads are executed faster by the system. This is useful for tasks with different levels of urgency. The default value is 5.
 
 7. **continueExistingPeriodicTasksAfterShutdownPolicy**
-   - **Description**: Determines whether periodic tasks should continue running after the scheduler is shut down.
-   - **Purpose**: Ensures that periodic tasks are not interrupted by a shutdown, which can be important for maintaining periodic operations. The default value is false.
+   - Determines whether periodic tasks should continue running after the scheduler is shut down.
+   - Ensures that periodic tasks are not interrupted by a shutdown, which can be important for maintaining periodic operations. The default value is false.
 
 8. **executeExistingDelayedTasksAfterShutdownPolicy**
-   - **Description**: Specifies whether delayed tasks should be executed after the scheduler is shut down.
-   - **Purpose**: Ensures that tasks scheduled to run after a delay are not canceled by a shutdown, which can be important for tasks that must be executed. The default value is true.
+   - Specifies whether delayed tasks should be executed after the scheduler is shut down.
+   - Ensures that tasks scheduled to run after a delay are not canceled by a shutdown, which can be important for tasks that must be executed. The default value is true.
 
 9. **daemon**
-   - **Description**: Indicates whether the scheduler's threads are daemon threads.
-   - **Purpose**: Daemon threads run in the background and do not prevent the JVM from shutting down. This is useful for background tasks that do not need to keep the application running. The default value is false.
+   - Indicates whether the scheduler's threads are daemon threads.
+   - Daemon threads run in the background and do not prevent the JVM from shutting down. This is useful for background tasks that do not need to keep the application running. The default value is false.
 
 #### Example Configuration in `SchedulerConfig.java`
 ```java
